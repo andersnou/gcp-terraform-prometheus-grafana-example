@@ -11,25 +11,31 @@ Zonal cluster is a cluster which zone is specified, such as `us-central1-a`. If 
 * [a GCP account](https://console.cloud.google.com/)
 * [a configured gcloud SDK](https://cloud.google.com/sdk/docs/quickstarts)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
+* a GCP project
 
 ## Quick-guide
 
-Running the Kubernetes cluster
+Setup
 
 1) Install/Setup prerequisites
 2) Run `gcloud init`
 3) Run `gcloud auth application-default login` and authenticate with Google
-4) Replace the `project_id` with your GCP project id and optionally the `region` and `zone` in the `terraform.tfvars` file
-5) Run `terraform apply` in the directory
-6) Run `gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)` to retrieve access credentials for the cluster and automatically configure kubectl
+4) Replace the `project_id` value with your GCP project id and optionally the `region` and `zone` in the `terraform.tfvars` file
+
+Running the Kubernetes cluster
+
+1) Run `terraform init`
+2) Run `terraform apply`
+3) Run `gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)` to retrieve access credentials for the cluster and automatically configure kubectl
 
 Deploy & configure Grafana & Prometheus
 
-1) Navigate to the kubernetes folder `cd kubernetes`
-2) Run `terraform apply` in the kubernetes directory
-3) Navigate to Grafana UI
-4) Setup a datasource in Grafana to listen to Prometheus
-5) Setup a dashboard in Grafana to read metrics from Prometheus
+1) Navigate to the kubernetes folder `cd resources`
+2) Run `terraform init`
+3) Run `terraform apply`
+4) Navigate to Grafana UI
+5) Setup a datasource in Grafana to listen to Prometheus
+6) Setup a dashboard in Grafana to read metrics from Prometheus
 
 ## Overview
 
@@ -41,19 +47,19 @@ Deploy & configure Grafana & Prometheus
 
 `versions.tf` sets the terraform version to at least 0.14.
 
-`kubernetes/prometheus-deploy` contains prometheus deployment code
+`resources/prometheus-deploy` contains prometheus deployment code
 
-`kubernetes/prometheus-service` contains prometheus service code
+`resources/prometheus-service` contains prometheus service code
 
-`kubernetes/grafana-deploy` contains grafana deployment code
+`resources/grafana-deploy` contains grafana deployment code
 
-`kubernetes/grafana-service` contains grafana service code
+`resources/grafana-service` contains grafana service code
 
 All the resources are installed under `monitor` namespace.
 
 ### Provisioning a Kubernetes cluster 
 
-> :warning: [Compute Engine API](https://console.cloud.google.com/apis/api/compute.googleapis.com/overview) and [Kubernetes Engine API](https://console.cloud.google.com/apis/api/compute.googleapis.com/overview?project=icefire-testassignment&folder=&organizationId=) are required for running `terraform apply`. They need to be enabled in the Google Cloud Console
+> :warning: [Compute Engine API](https://console.cloud.google.com/apis/api/compute.googleapis.com/overview) and [Kubernetes Engine API](https://cloud.google.com/kubernetes-engine) are required for running `terraform apply`. They need to be enabled in the Google Cloud Console
 
 Kubernetes cluster is created by running `terraform apply` in the directory. The process should take approximately 10 minutes.
 
