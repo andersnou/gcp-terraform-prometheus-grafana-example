@@ -75,7 +75,7 @@ A Kubernetes service for the Grafana is created with `resource "kubernetes_servi
 
 ### Prometheus deployment & service
 
-`resource "kubernetes_deployment" "prometheus"` in `kubernetes.tf` will deploy Prometheus. We will pull the latest Prometheus image (`prom/prometheus:latest`) and specify the port (`9000`) and protocol (`TCP`). 
+`resource "kubernetes_deployment" "prometheus"` in `kubernetes.tf` will deploy Prometheus. We will pull the latest Prometheus image (`prom/prometheus:latest`) and specify the port (`9090`) and protocol (`TCP`). 
 
 A Kubernetes service for the Prometheus is created with `resource "kubernetes_service" "prometheus_service"`. We will specify the selector to match the deployment resource name and the ports. In this case, the type is `LoadBalancer` which allows us to access the Prometheus UI directly from the browser through an IP:PORT.
 
